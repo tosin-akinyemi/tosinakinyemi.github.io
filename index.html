@@ -1,618 +1,384 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Esther Akinyemi | Project Coordinator</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --green:#16a34a;--green-light:#22c55e;--green-dark:#14532d;
-  --green-pale:#f0fdf4;--green-mid:#dcfce7;
-  --navy:#0a1628;--gray:#475569;--light:#f8fafc;
+import { useState } from "react";
+
+const G = "#16a34a", GL = "#22c55e", GD = "#14532d", GP = "#f0fdf4", GM = "#dcfce7";
+const NAVY = "#0a1628", GRAY = "#475569";
+
+const Tag = ({c}) => <span style={{display:"inline-block",background:GM,color:GD,fontSize:".72rem",padding:".2rem .55rem",borderRadius:20,margin:".2rem .1rem 0"}}>{c}</span>;
+
+const SectionHeader = ({tag,title,accent}) => (
+  <div style={{marginBottom:"1.75rem"}}>
+    <div style={{color:G,fontSize:".78rem",fontWeight:700,letterSpacing:2,textTransform:"uppercase",marginBottom:".4rem"}}>{tag}</div>
+    <h2 style={{fontSize:"1.8rem",fontWeight:800,color:NAVY}}>{title} <span style={{color:G}}>{accent}</span></h2>
+  </div>
+);
+
+const InnerHero = ({title,sub}) => (
+  <div style={{background:`linear-gradient(135deg,${GD},${G})`,padding:"3rem 5%",textAlign:"center"}}>
+    <h1 style={{fontSize:"2.2rem",fontWeight:900,color:"#fff"}}>{title}</h1>
+    <p style={{color:"#bbf7d0",marginTop:".5rem"}}>{sub}</p>
+  </div>
+);
+
+const Wrap = ({children}) => <div style={{maxWidth:1000,margin:"0 auto",padding:"3rem 5%"}}>{children}</div>;
+
+// ── HOME ──
+function Home({go}) {
+  return (
+    <div style={{background:NAVY,minHeight:"calc(100vh - 64px)",display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden",position:"relative"}}>
+      <div style={{position:"absolute",width:600,height:600,borderRadius:"50%",background:G,opacity:.07,top:-150,right:-150,pointerEvents:"none"}}/>
+      <div style={{position:"absolute",width:400,height:400,borderRadius:"50%",background:GL,opacity:.07,bottom:-100,left:-100,pointerEvents:"none"}}/>
+      <div style={{display:"flex",alignItems:"center",gap:"4rem",maxWidth:1100,width:"100%",padding:"3rem 5%",position:"relative",zIndex:1,flexWrap:"wrap",justifyContent:"center"}}>
+        {/* photo */}
+        <div style={{flexShrink:0}}>
+          <div style={{width:300,height:300,borderRadius:"50%",background:`linear-gradient(135deg,${G},${GL})`,padding:5,boxShadow:`0 0 50px ${G}66`}}>
+            <img
+              src="https://tosin-akinyemi.github.io/portfolio.jpeg"
+              alt="Esther Akinyemi"
+              style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",objectPosition:"top center",display:"block"}}
+              onError={e=>{e.target.parentElement.innerHTML='<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#14532d,#22c55e);display:flex;align-items:center;justify-content:center;font-size:4rem;color:#fff;font-weight:900">EA</div>';}}
+            />
+          </div>
+        </div>
+        {/* text */}
+        <div>
+          <div style={{color:GL,fontSize:"1rem",fontWeight:700,letterSpacing:3,textTransform:"uppercase",marginBottom:".6rem"}}>👋 Hello, my name is</div>
+          <h1 style={{fontSize:"4rem",fontWeight:900,color:"#fff",lineHeight:1.05,marginBottom:"1rem"}}>
+            ESTHER<br/><span style={{color:GL}}>AKINYEMI</span>
+          </h1>
+          <p style={{color:"#94a3b8",fontSize:"1rem",lineHeight:1.7,maxWidth:460,marginBottom:".4rem"}}>Project Coordinator & Compliance Specialist driving customer success across telecom, hospitality, and technology sectors.</p>
+          <p style={{color:GL,fontSize:".9rem",fontWeight:600,marginBottom:"1.75rem"}}>📍 Toronto, Ontario · Open to Opportunities</p>
+          <div style={{display:"flex",gap:"1rem",flexWrap:"wrap"}}>
+            {[["Explore My Work","about"],["View Resume","resume"],["Get In Touch","contact"]].map(([label,pg])=>(
+              <button key={pg} onClick={()=>go(pg)} style={{padding:".75rem 1.5rem",borderRadius:8,fontWeight:700,fontSize:".9rem",cursor:"pointer",fontFamily:"inherit",background:label==="Explore My Work"?G:"transparent",color:label==="Explore My Work"?"#fff":GL,border:`2px solid ${GL}`}}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
-body{font-family:'Segoe UI',sans-serif;background:#fff;color:#1e293b;scroll-behavior:smooth;}
 
-/* NAV */
-nav{position:fixed;top:0;width:100%;background:rgba(10,22,40,0.97);backdrop-filter:blur(8px);z-index:1000;padding:0 5%;}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;}
-.logo{color:#fff;font-weight:800;font-size:1.1rem;}
-nav ul{display:flex;gap:1.75rem;list-style:none;}
-nav ul a{color:#cbd5e1;text-decoration:none;font-size:.88rem;transition:color .2s;}
-nav ul a:hover{color:var(--green-light);}
-
-/* PAGE SYSTEM */
-.page{display:none;min-height:100vh;padding-top:64px;}
-.page.active{display:block;}
-
-/* ===== HOME PAGE ===== */
-#home{background:var(--navy);display:flex;align-items:center;justify-content:center;min-height:100vh;padding-top:64px;overflow:hidden;position:relative;}
-.home-bg-circles{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
-.circle{position:absolute;border-radius:50%;opacity:.07;}
-.c1{width:600px;height:600px;background:var(--green);top:-150px;right:-150px;}
-.c2{width:400px;height:400px;background:var(--green-light);bottom:-100px;left:-100px;}
-.c3{width:200px;height:200px;background:#fff;top:40%;left:30%;}
-
-.home-inner{display:flex;align-items:center;gap:5rem;max-width:1100px;width:100%;padding:0 5%;position:relative;z-index:1;}
-
-.home-photo-wrap{position:relative;flex-shrink:0;}
-.home-photo-ring{width:320px;height:320px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-light));padding:5px;}
-.home-photo{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:top;display:block;background:#1e3a5f;}
-.green-dot{width:22px;height:22px;background:var(--green-light);border-radius:50%;position:absolute;border:3px solid var(--navy);}
-.dot1{bottom:20px;right:10px;}
-.dot2{top:30px;left:5px;width:14px;height:14px;}
-
-.home-text .hello{color:var(--green-light);font-size:1.1rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem;display:block;}
-.home-text h1{font-size:4rem;font-weight:900;color:#fff;line-height:1.05;margin-bottom:1rem;}
-.home-text h1 span{color:var(--green-light);}
-.home-text .tagline{color:#94a3b8;font-size:1.1rem;line-height:1.7;max-width:480px;margin-bottom:.5rem;}
-.home-text .sub-tagline{color:var(--green-light);font-size:.95rem;font-weight:600;margin-bottom:2rem;}
-.home-btns{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn{padding:.75rem 1.75rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:.95rem;cursor:pointer;transition:all .2s;border:none;display:inline-block;}
-.btn-green{background:var(--green);color:#fff;}
-.btn-green:hover{background:var(--green-light);}
-.btn-outline{border:2px solid var(--green-light);color:var(--green-light);background:transparent;}
-.btn-outline:hover{background:var(--green);color:#fff;border-color:var(--green);}
-
-.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:#475569;font-size:.8rem;text-align:center;animation:bounce 2s infinite;}
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
-
-/* ===== INNER PAGES ===== */
-.inner-hero{background:linear-gradient(135deg,var(--green-dark),var(--green));padding:3rem 5%;text-align:center;}
-.inner-hero h1{font-size:2.5rem;font-weight:900;color:#fff;}
-.inner-hero p{color:#bbf7d0;margin-top:.5rem;font-size:1rem;}
-
-section.content{padding:4rem 5%;max-width:1100px;margin:0 auto;}
-
-.section-tag{color:var(--green);font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:.4rem;}
-.section-title{font-size:1.9rem;font-weight:800;color:var(--navy);margin-bottom:2rem;}
-.section-title span{color:var(--green);}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-.about-grid p{color:var(--gray);line-height:1.8;margin-bottom:1rem;}
-.stats-row{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.5rem;}
-.stat-box{background:var(--green-pale);border-left:4px solid var(--green);padding:1rem 1.5rem;border-radius:8px;flex:1;min-width:120px;}
-.stat-box .n{font-size:1.8rem;font-weight:800;color:var(--green);}
-.stat-box .l{color:var(--gray);font-size:.8rem;margin-top:.2rem;}
-
-/* EXPERIENCE */
-.timeline{display:flex;flex-direction:column;gap:1.25rem;}
-.exp-card{background:#fff;border-radius:12px;padding:1.5rem;border-left:4px solid var(--green);box-shadow:0 2px 12px rgba(0,0,0,.06);}
-.exp-card h3{font-size:1rem;font-weight:700;color:var(--navy);}
-.exp-card .company{color:var(--green);font-size:.88rem;margin:.2rem 0;}
-.exp-card .period{color:var(--gray);font-size:.82rem;margin-bottom:.65rem;}
-.exp-card ul{padding-left:1.1rem;color:var(--gray);font-size:.88rem;line-height:1.75;}
-
-/* PROJECTS */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;}
-.project-card{background:var(--green-pale);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s;}
-.project-card:hover{transform:translateY(-4px);}
-.proj-top{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,var(--green-dark),var(--green));}
-.proj-body{padding:1.25rem;}
-.proj-body h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
-.proj-body p{color:var(--gray);font-size:.87rem;line-height:1.6;}
-.tag{display:inline-block;background:var(--green-mid);color:var(--green-dark);font-size:.72rem;padding:.2rem .55rem;border-radius:20px;margin:.2rem .1rem 0;}
-
-/* SKILLS */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
-.skill-card{background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.06);}
-.skill-card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:2px solid var(--green);}
-.skill-card ul{list-style:none;}
-.skill-card li{color:var(--gray);font-size:.87rem;padding:.25rem 0;display:flex;align-items:center;gap:.4rem;}
-.skill-card li::before{content:"▸";color:var(--green);}
-
-/* EVENTS */
-.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;}
-.event-card{border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);}
-.ev-banner{height:140px;display:flex;align-items:center;justify-content:center;font-size:3rem;}
-.ev-banner.bigdata{background:linear-gradient(135deg,#0a1628,#166534);}
-.ev-banner.obsidian{background:linear-gradient(135deg,#1e1b4b,#6d28d9);}
-.ev-body{padding:1.25rem;background:var(--green-pale);}
-.ev-body h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
-.ev-meta{color:var(--green);font-size:.82rem;font-weight:600;margin-bottom:.5rem;}
-.badge{display:inline-block;background:var(--green-mid);color:var(--green-dark);font-size:.72rem;padding:.2rem .6rem;border-radius:20px;margin-bottom:.4rem;}
-.ev-body p{color:var(--gray);font-size:.87rem;line-height:1.6;}
-
-/* BLOG */
-.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;}
-.blog-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s;}
-.blog-card:hover{transform:translateY(-4px);}
-.blog-banner{height:120px;background:linear-gradient(135deg,var(--green-dark),var(--green-light));display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
-.blog-body{padding:1.25rem;}
-.blog-body h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;line-height:1.4;}
-.blog-body p{color:var(--gray);font-size:.87rem;line-height:1.6;margin-bottom:.75rem;}
-.blog-body a{color:var(--green);font-size:.87rem;font-weight:600;text-decoration:none;}
-.blog-body a:hover{text-decoration:underline;}
-
-/* TESTIMONIALS */
-.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;}
-.testi-card{background:var(--green-pale);border-radius:12px;padding:1.5rem;border-top:4px solid var(--green);}
-.quote{font-size:2rem;color:var(--green);line-height:1;margin-bottom:.5rem;}
-.testi-card p{color:var(--gray);font-size:.9rem;line-height:1.75;font-style:italic;margin-bottom:1rem;}
-.testi-card .author{font-weight:700;color:var(--navy);font-size:.9rem;}
-
-/* RESUME PAGE */
-#resume-page .inner-hero{margin-bottom:0;}
-.resume-wrap{max-width:900px;margin:3rem auto;padding:0 5%;}
-.resume-dl{text-align:center;margin-bottom:2rem;}
-.resume-doc{background:#fff;border-radius:16px;box-shadow:0 4px 30px rgba(0,0,0,.1);overflow:hidden;}
-.res-header{background:linear-gradient(135deg,var(--green-dark),var(--green));padding:2.5rem 3rem;color:#fff;}
-.res-header h2{font-size:2rem;font-weight:900;letter-spacing:1px;}
-.res-header .res-role{color:#bbf7d0;font-size:1rem;margin:.3rem 0 1rem;}
-.res-contacts{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.85rem;color:#dcfce7;}
-.res-contacts span{display:flex;align-items:center;gap:.35rem;}
-.res-body{display:grid;grid-template-columns:1fr 1.6fr;gap:0;}
-.res-left{background:var(--green-pale);padding:2rem;}
-.res-right{background:#fff;padding:2rem;}
-.res-section{margin-bottom:2rem;}
-.res-section h3{font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green);border-bottom:2px solid var(--green-mid);padding-bottom:.4rem;margin-bottom:1rem;}
-.res-section p{color:var(--gray);font-size:.85rem;line-height:1.7;}
-.skill-pill{display:inline-block;background:var(--green-mid);color:var(--green-dark);font-size:.78rem;padding:.25rem .65rem;border-radius:20px;margin:.2rem .15rem;}
-.edu-item{margin-bottom:1.25rem;}
-.edu-item .deg{font-weight:700;color:var(--navy);font-size:.88rem;line-height:1.4;}
-.edu-item .school{color:var(--green);font-size:.82rem;margin:.2rem 0;}
-.edu-item .yr{color:var(--gray);font-size:.78rem;}
-.exp-item{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid #e2e8f0;}
-.exp-item:last-child{border-bottom:none;padding-bottom:0;}
-.exp-item .title{font-weight:700;color:var(--navy);font-size:.92rem;}
-.exp-item .co{color:var(--green);font-size:.83rem;margin:.15rem 0 .1rem;}
-.exp-item .dates{color:var(--gray);font-size:.78rem;margin-bottom:.5rem;}
-.exp-item ul{padding-left:1rem;color:var(--gray);font-size:.83rem;line-height:1.7;}
-.link-item{display:block;color:var(--green);font-size:.82rem;word-break:break-all;margin:.2rem 0;text-decoration:none;}
-.link-item:hover{text-decoration:underline;}
-
-/* CONTACT */
-#contact-page .inner-hero{margin-bottom:0;}
-.contact-box{max-width:700px;margin:4rem auto;padding:0 5%;text-align:center;}
-.contact-box p{color:var(--gray);line-height:1.7;margin-bottom:2rem;}
-.contact-cards{display:flex;gap:1.25rem;flex-wrap:wrap;justify-content:center;}
-.contact-card{background:var(--green-pale);border-radius:12px;padding:1.5rem 2rem;text-align:center;text-decoration:none;color:var(--navy);flex:1;min-width:160px;border:2px solid var(--green-mid);transition:all .2s;}
-.contact-card:hover{background:var(--green);color:#fff;border-color:var(--green);}
-.contact-card .icon{font-size:1.75rem;margin-bottom:.5rem;}
-.contact-card .label{font-size:.78rem;color:inherit;opacity:.8;margin-bottom:.2rem;}
-.contact-card .val{font-weight:700;font-size:.88rem;}
-
-footer{background:var(--green-dark);color:#bbf7d0;text-align:center;padding:1.25rem;font-size:.82rem;}
-
-@media(max-width:768px){
-  .home-inner{flex-direction:column;text-align:center;padding-top:2rem;}
-  .home-text h1{font-size:2.5rem;}
-  .home-btns{justify-content:center;}
-  .about-grid{grid-template-columns:1fr;}
-  .res-body{grid-template-columns:1fr;}
-  nav ul{gap:1rem;}
-  .home-photo-ring{width:230px;height:230px;}
+// ── ABOUT ──
+function About() {
+  return (
+    <div>
+      <InnerHero title="About Me" sub="Who I am & what drives me"/>
+      <Wrap>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"3rem"}}>
+          <div>
+            <SectionHeader tag="My Story" title="Who I" accent="Am"/>
+            <p style={{color:GRAY,lineHeight:1.8,marginBottom:"1rem"}}>Project Coordinator and Compliance Specialist with 5+ years of experience driving customer success across telecom, hospitality, and technology sectors, managing $5M+ ARR.</p>
+            <p style={{color:GRAY,lineHeight:1.8,marginBottom:"1rem"}}>I excel at team leadership, stakeholder coordination, timeline management, and delivering on-budget results. My expertise spans program planning, risk mitigation, and cross-functional collaboration.</p>
+            <p style={{color:GRAY,lineHeight:1.8}}>I hold a Master's in Informatics, Security Analytics & AI from Northeastern University.</p>
+            <div style={{display:"flex",gap:"1rem",marginTop:"1.5rem",flexWrap:"wrap"}}>
+              {[["5+","Years Exp"],["$5M+","ARR Managed"],["100%","Audit Pass"]].map(([n,l])=>(
+                <div key={l} style={{background:GP,borderLeft:`4px solid ${G}`,padding:"1rem 1.25rem",borderRadius:8,flex:1,minWidth:90}}>
+                  <div style={{fontSize:"1.6rem",fontWeight:800,color:G}}>{n}</div>
+                  <div style={{color:GRAY,fontSize:".78rem",marginTop:".2rem"}}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <SectionHeader tag="Core Values" title="What I" accent="Bring"/>
+            <p style={{color:GRAY,lineHeight:1.8,marginBottom:"1rem"}}>With expertise spanning HIPAA, PIPEDA, GDPR, and GCP cloud compliance, I bridge the gap between complex regulatory requirements and real-world operations.</p>
+            <p style={{color:GRAY,lineHeight:1.8,marginBottom:"1rem"}}>I'm passionate about continuous learning, regularly attending industry events like the Big Data & Analytics Summit and contributing to the compliance community through thought leadership.</p>
+            <p style={{color:GRAY,lineHeight:1.8}}>Whether coordinating cross-functional teams, auditing compliance frameworks, or building customer success strategies — I bring energy, precision, and a results-first mindset.</p>
+          </div>
+        </div>
+      </Wrap>
+    </div>
+  );
 }
-</style>
-</head>
-<body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <span class="logo">Esther Akinyemi</span>
-    <ul>
-      <li><a href="javascript:void(0)" onclick="show('home')">Home</a></li>
-      <li><a href="javascript:void(0)" onclick="show('about-page')">About</a></li>
-      <li><a href="javascript:void(0)" onclick="show('experience-page')">Experience</a></li>
-      <li><a href="javascript:void(0)" onclick="show('projects-page')">Projects</a></li>
-      <li><a href="javascript:void(0)" onclick="show('events-page')">Events</a></li>
-      <li><a href="javascript:void(0)" onclick="show('blog-page')">Blog</a></li>
-      <li><a href="javascript:void(0)" onclick="show('resume-page')">Resume</a></li>
-      <li><a href="javascript:void(0)" onclick="show('contact-page')">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- ===== HOME PAGE ===== -->
-<div id="home" class="page active">
-  <div class="home-bg-circles">
-    <div class="circle c1"></div>
-    <div class="circle c2"></div>
-    <div class="circle c3"></div>
-  </div>
-  <div class="home-inner">
-    <div class="home-photo-wrap">
-      <div class="home-photo-ring">
-        <img class="home-photo" src="https://tosin-akinyemi.github.io/portfolio.jpeg" alt="Esther Akinyemi"
-          onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#14532d,#22c55e);display:flex;align-items:center;justify-content:center;font-size:4rem;color:#fff\'>EA</div>'"/>
-      </div>
-      <div class="green-dot dot1"></div>
-      <div class="green-dot dot2"></div>
-    </div>
-    <div class="home-text">
-      <span class="hello">👋 Hello, my name is</span>
-      <h1>ESTHER<br/><span>AKINYEMI</span></h1>
-      <p class="tagline">Project Coordinator & Compliance Specialist driving customer success across telecom, hospitality, and technology sectors.</p>
-      <p class="sub-tagline">📍 Toronto, Ontario · Open to Opportunities</p>
-      <div class="home-btns">
-        <button class="btn btn-green" onclick="show('about-page')">Explore My Work</button>
-        <button class="btn btn-outline" onclick="show('resume-page')">View Resume</button>
-        <button class="btn btn-outline" onclick="show('contact-page')">Get In Touch</button>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-hint">▼ Scroll to explore</div>
-</div>
-
-<!-- ===== ABOUT PAGE ===== -->
-<div id="about-page" class="page">
-  <div class="inner-hero">
-    <h1>About Me</h1>
-    <p>Who I am & what drives me</p>
-  </div>
-  <section class="content">
-    <div class="about-grid">
-      <div>
-        <div class="section-tag">My Story</div>
-        <h2 class="section-title">Who I <span>Am</span></h2>
-        <p>I am a dedicated Project Coordinator and Compliance Specialist with 5+ years of experience driving customer success initiatives across telecom, hospitality, and technology sectors, managing $5M+ ARR.</p>
-        <p>I excel at team leadership, stakeholder coordination, timeline management, and delivering on-budget results. My expertise spans program planning, risk mitigation, cross-functional collaboration, and project closeout.</p>
-        <p>I hold a Master's in Informatics, Security Analytics & AI from Northeastern University, and I am passionate about bridging cloud security and healthcare compliance standards with precision.</p>
-        <div class="stats-row">
-          <div class="stat-box"><div class="n">5+</div><div class="l">Years Experience</div></div>
-          <div class="stat-box"><div class="n">$5M+</div><div class="l">ARR Managed</div></div>
-          <div class="stat-box"><div class="n">100%</div><div class="l">Audit Pass Rate</div></div>
-        </div>
-      </div>
-      <div>
-        <div class="section-tag">Core Values</div>
-        <h2 class="section-title">What I <span>Bring</span></h2>
-        <p>With expertise spanning HIPAA, PIPEDA, GDPR, and GCP cloud compliance, I bridge the gap between complex regulatory requirements and real-world business operations.</p>
-        <p>I am passionate about continuous learning, regularly attending industry events like the Big Data & Analytics Summit, and actively contributing to the compliance and data governance community through thought leadership.</p>
-        <p>Whether coordinating cross-functional teams, auditing compliance frameworks, or building customer success strategies, I bring energy, precision, and a results-first mindset to everything I do.</p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===== EXPERIENCE PAGE ===== -->
-<div id="experience-page" class="page">
-  <div class="inner-hero">
-    <h1>Experience</h1>
-    <p>My professional journey</p>
-  </div>
-  <section class="content">
-    <div class="section-tag">Career History</div>
-    <h2 class="section-title">Work <span>Experience</span></h2>
-    <div class="timeline">
-      <div class="exp-card">
-        <h3>Website Team Member</h3>
-        <div class="company">Shaw Direct · Full-time</div>
-        <div class="period">Jul 2025 – Aug 2025</div>
-        <ul>
-          <li>Coordinated with designers and developers to integrate APIs and AI models, delivering enhanced website functionality on schedule.</li>
-          <li>Managed testing and debugging phases, ensuring project milestones and performance targets were met.</li>
-        </ul>
-      </div>
-      <div class="exp-card">
-        <h3>Customer Success Manager</h3>
-        <div class="company">Shaw Direct · Full-time</div>
-        <div class="period">Mar 2023 – Apr 2024</div>
-        <ul>
-          <li>Coordinated customer lifecycle projects from onboarding through expansion, achieving 50% CSAT increase, 30% retention boost, and 20% account growth.</li>
-          <li>Led cross-functional teams to resolve issues first-contact, managing stakeholder expectations and timelines.</li>
-          <li>Directed proactive communication strategies to maintain project deliverables.</li>
-        </ul>
-      </div>
-      <div class="exp-card">
-        <h3>Administrator</h3>
-        <div class="company">Covenant Nation · Full-time</div>
-        <div class="period">May 2024 – Jan 2025</div>
-        <ul>
-          <li>Responded to client inquiries via phone and email, addressing questions, complaints, and needs.</li>
-          <li>Utilized computer software to perform various administrative tasks.</li>
-          <li>Planned and coordinated travel arrangements.</li>
-          <li>Collaborated with other teams to develop strategies for improving operational efficiency.</li>
-        </ul>
-      </div>
-      <div class="exp-card">
-        <h3>Technical Support Representative</h3>
-        <div class="company">Digital Bananas Technology, Lagos</div>
-        <div class="period">Jan 2023 – Feb 2023</div>
-        <ul>
-          <li>Coordinated Ethernet infrastructure for multi-school cybersecurity competition, ensuring event readiness.</li>
-          <li>Collaborated with technical teams to maintain network reliability under tight deadlines.</li>
-        </ul>
-      </div>
-      <div class="exp-card">
-        <h3>Customer Specialist</h3>
-        <div class="company">Digital Bananas Technology, Lagos</div>
-        <div class="period">Mar 2018 – Jan 2022</div>
-        <ul>
-          <li>Oversaw $5M+ ARR portfolio, coordinating upselling campaigns and technical resolutions across multiple customer projects.</li>
-          <li>Managed concurrent tasks and stakeholder escalations with full solution follow-through.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===== PROJECTS PAGE ===== -->
-<div id="projects-page" class="page">
-  <div class="inner-hero">
-    <h1>Projects</h1>
-    <p>Key work I've delivered</p>
-  </div>
-  <section class="content">
-    <div class="section-tag">Portfolio</div>
-    <h2 class="section-title">Key <span>Projects</span></h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="proj-top">☁️</div>
-        <div class="proj-body">
-          <h3>Hinsight GCP Compliance</h3>
-          <p>Led GCP compliance for Hinsight's healthcare dashboards, implementing BAA agreements, IAM role separation, and audit logging for full HIPAA and PIPEDA adherence. Delivered real-time compliant data visualizations for hospital executives.</p>
-          <span class="tag">HIPAA</span><span class="tag">PIPEDA</span><span class="tag">GCP</span><span class="tag">IAM</span>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="proj-top">🔗</div>
-        <div class="proj-body">
-          <h3>CRM Workflow Optimization</h3>
-          <p>Optimized CRM workflows at a digital agency by integrating HubSpot and Salesforce with Asana and Trello, boosting client pipeline efficiency by 30%. Conducted comprehensive cloud security audits across wellness platforms with actionable remediation plans.</p>
-          <span class="tag">HubSpot</span><span class="tag">Salesforce</span><span class="tag">Cloud Security</span>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="proj-top">📋</div>
-        <div class="proj-body">
-          <h3>Capstone Compliance Audit</h3>
-          <p>End-to-end compliance gap audit across multiple wellness platforms, achieving 100% gap closure. Developed detailed remediation roadmaps and governance frameworks aligned with current regulatory standards.</p>
-          <span class="tag">Audit</span><span class="tag">Gap Analysis</span><span class="tag">Governance</span>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="proj-top">🌐</div>
-        <div class="proj-body">
-          <h3>Website Redevelopment – Shaw Direct</h3>
-          <p>Coordinated API and AI model integrations as part of the website team, managing testing and debugging phases to deliver enhanced functionality on schedule and within performance targets.</p>
-          <span class="tag">API Integration</span><span class="tag">AI</span><span class="tag">Project Management</span>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===== EVENTS PAGE ===== -->
-<div id="events-page" class="page">
-  <div class="inner-hero">
-    <h1>Events</h1>
-    <p>Communities & conferences I'm part of</p>
-  </div>
-  <section class="content">
-    <div class="section-tag">Community & Learning</div>
-    <h2 class="section-title">Events I've <span>Attended</span></h2>
-    <div class="events-grid">
-      <div class="event-card">
-        <div class="ev-banner bigdata">📊</div>
-        <div class="ev-body">
-          <span class="badge">Attendee</span>
-          <h3>11th Annual Big Data & Analytics Summit Canada</h3>
-          <div class="ev-meta">Big Data & Analytics Summit · Canada</div>
-          <p>A two-day summit exploring how AI, LLMs, and NLP are transforming data-driven decision-making across industries. Key themes included robust data governance, automated compliance tools, and the evolving role of data quality in AI adoption.</p>
-        </div>
-      </div>
-      <div class="event-card">
-        <div class="ev-banner obsidian">🔮</div>
-        <div class="ev-body">
-          <span class="badge">Community Member</span>
-          <h3>Obsidian Community Event</h3>
-          <div class="ev-meta">Obsidian Community · Toronto</div>
-          <p>An active member of the Obsidian community, attending local events focused on knowledge management, personal productivity, and professional development. These gatherings provide space for collaboration and networking with like-minded professionals.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===== BLOG PAGE ===== -->
-<div id="blog-page" class="page">
-  <div class="inner-hero">
-    <h1>Blog</h1>
-    <p>Thoughts & insights I've shared</p>
-  </div>
-  <section class="content">
-    <div class="section-tag">Thought Leadership</div>
-    <h2 class="section-title">Latest <span>Posts</span></h2>
-    <div class="blog-grid">
-      <div class="blog-card">
-        <div class="blog-banner">✍️</div>
-        <div class="blog-body">
-          <h3>Insights from the 11th Annual Big Data & Analytics Summit</h3>
-          <p>A reflection on how AI, LLMs, and NLP are reshaping data governance and decision-making. The summit reinforced that effective data governance is the foundation for successful AI adoption and meaningful business outcomes.</p>
-          <a href="https://www.linkedin.com/in/estheroluakinyemi" target="_blank">Read on LinkedIn →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS inside blog/community page -->
-  <section class="content" style="padding-top:0;">
-    <div class="section-tag">What People Say</div>
-    <h2 class="section-title">Testimonials</h2>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="quote">"</div>
-        <p>I worked with Esther for over 2 years. I can easily describe her as prompt, responsive, thorough, organised, visionary, passionate, efficient, and perspective-taking. She is someone who can add a lot of value to an organisation she believes in.</p>
-        <div class="author">Stephen Olateju</div>
-      </div>
-      <div class="testi-card">
-        <div class="quote">"</div>
-        <p>Esther is an exceptional addition to any team — she goes all out. She is motivated, and once she commits, she makes sure she delivers. She has a positive competitive drive. I will gladly recommend her for any role.</p>
-        <div class="author">Moyosore Majekobaje</div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ===== RESUME PAGE ===== -->
-<div id="resume-page" class="page">
-  <div class="inner-hero">
-    <h1>Resume</h1>
-    <p>My full professional profile</p>
-  </div>
-  <div class="resume-wrap">
-    <div class="resume-dl">
-      <a href="https://tosin-akinyemi.github.io/" target="_blank" class="btn btn-green">⬇ Download Resume (PDF)</a>
-    </div>
-    <div class="resume-doc">
-      <!-- HEADER -->
-      <div class="res-header">
-        <h2>ESTHER AKINYEMI</h2>
-        <div class="res-role">Project Coordinator | Compliance Specialist</div>
-        <div class="res-contacts">
-          <span>📞 416-5395696</span>
-          <span>✉️ estheroluwaabeni@gmail.com</span>
-          <span>📍 Toronto, Ontario</span>
-        </div>
-      </div>
-      <!-- BODY: 2 COLUMNS -->
-      <div class="res-body">
-        <!-- LEFT -->
-        <div class="res-left">
-          <div class="res-section">
-            <h3>Summary</h3>
-            <p>Project Coordinator with 5+ years driving customer success across telecom, hospitality, and technology sectors, managing $5M+ ARR. Expert in team leadership, stakeholder coordination, risk mitigation, and on-budget delivery.</p>
+// ── EXPERIENCE ──
+function Experience() {
+  const jobs = [
+    {title:"Website Team Member",co:"Shaw Direct",period:"Jul 2025 – Aug 2025",bullets:["Coordinated with designers/developers to integrate APIs and AI models, delivering enhanced website functionality on schedule.","Managed testing and debugging phases, ensuring project milestones and performance targets were met."]},
+    {title:"Customer Success Manager",co:"Shaw Direct",period:"Mar 2023 – Apr 2024",bullets:["Coordinated customer lifecycle projects achieving 50% CSAT increase, 30% retention boost, and 20% account growth.","Led cross-functional teams to resolve issues first-contact, managing stakeholder expectations and timelines.","Directed proactive communication strategies to maintain project deliverables."]},
+    {title:"Administrator",co:"Covenant Nation",period:"May 2024 – Jan 2025",bullets:["Responded to client inquiries via phone and email, addressing questions, complaints, and needs.","Planned and coordinated travel arrangements and administrative tasks.","Collaborated across teams to develop strategies for improving operational efficiency."]},
+    {title:"Technical Support Representative",co:"Digital Bananas Technology, Lagos",period:"Jan 2023 – Feb 2023",bullets:["Coordinated Ethernet infrastructure for multi-school cybersecurity competition, ensuring event readiness.","Maintained network reliability under tight deadlines with technical teams."]},
+    {title:"Customer Specialist",co:"Digital Bananas Technology, Lagos",period:"Mar 2018 – Jan 2022",bullets:["Oversaw $5M+ ARR portfolio, coordinating upselling campaigns and technical resolutions across multiple customer projects.","Managed concurrent tasks and stakeholder escalations with full solution follow-through."]},
+  ];
+  return (
+    <div>
+      <InnerHero title="Experience" sub="My professional journey"/>
+      <Wrap>
+        <SectionHeader tag="Career History" title="Work" accent="Experience"/>
+        {jobs.map((j,i)=>(
+          <div key={i} style={{background:"#fff",borderRadius:12,padding:"1.4rem",borderLeft:`4px solid ${G}`,boxShadow:"0 2px 12px rgba(0,0,0,.06)",marginBottom:"1.25rem"}}>
+            <div style={{fontWeight:700,color:NAVY,fontSize:"1rem"}}>{j.title}</div>
+            <div style={{color:G,fontSize:".85rem",margin:".2rem 0"}}>{j.co}</div>
+            <div style={{color:GRAY,fontSize:".8rem",marginBottom:".6rem"}}>{j.period}</div>
+            <ul style={{paddingLeft:"1.1rem",color:GRAY,fontSize:".87rem",lineHeight:1.75}}>{j.bullets.map((b,k)=><li key={k}>{b}</li>)}</ul>
           </div>
-          <div class="res-section">
-            <h3>Education</h3>
-            <div class="edu-item">
-              <div class="deg">Master's in Informatics, Security Analytics & AI</div>
-              <div class="school">Northeastern University</div>
-              <div class="yr">Mar 2026</div>
-            </div>
-            <div class="edu-item">
-              <div class="deg">Diploma in Digital Business Management</div>
-              <div class="school">Toronto School of Management</div>
-            </div>
-            <div class="edu-item">
-              <div class="deg">Bachelor's Degree in Sociology & Anthropology</div>
-            </div>
-          </div>
-          <div class="res-section">
-            <h3>Skills</h3>
-            <span class="skill-pill">Project Coordination</span>
-            <span class="skill-pill">Agile Methodologies</span>
-            <span class="skill-pill">CRM Software</span>
-            <span class="skill-pill">Microsoft Office Suite</span>
-            <span class="skill-pill">Cybersecurity</span>
-            <span class="skill-pill">AWS IAM</span>
-            <span class="skill-pill">Cloud Networking</span>
-            <span class="skill-pill">Web Development</span>
-            <span class="skill-pill">GitHub</span>
-            <span class="skill-pill">HTML</span>
-            <span class="skill-pill">Stakeholder Management</span>
-            <span class="skill-pill">HIPAA / PIPEDA</span>
-            <span class="skill-pill">GCP BAA/DLP</span>
-            <span class="skill-pill">Looker Studio</span>
-          </div>
-          <div class="res-section">
-            <h3>Profiles</h3>
-            <a class="link-item" href="https://www.linkedin.com/in/estheroluakinyemi" target="_blank">🔗 LinkedIn</a>
-            <a class="link-item" href="https://github.com/tosin-akinyemi" target="_blank">🐙 GitHub</a>
-          </div>
-        </div>
-        <!-- RIGHT -->
-        <div class="res-right">
-          <div class="res-section">
-            <h3>Experience</h3>
-            <div class="exp-item">
-              <div class="title">Website Team Member</div>
-              <div class="co">Shaw Direct</div>
-              <div class="dates">Jul 2025 – Aug 2025</div>
-              <ul>
-                <li>Coordinated with designers/developers to integrate APIs/AI models, delivering enhanced website functionality on schedule.</li>
-                <li>Managed testing/debugging phases, ensuring project milestones and performance targets were met.</li>
-              </ul>
-            </div>
-            <div class="exp-item">
-              <div class="title">Customer Success Manager</div>
-              <div class="co">Shaw Direct</div>
-              <div class="dates">Mar 2023 – Apr 2024</div>
-              <ul>
-                <li>Coordinated customer lifecycle projects achieving 50% CSAT increase, 30% retention boost, and 20% account growth.</li>
-                <li>Led cross-functional teams to resolve issues first-contact, managing stakeholder expectations and timelines.</li>
-                <li>Directed proactive communication strategies to maintain project deliverables.</li>
-              </ul>
-            </div>
-            <div class="exp-item">
-              <div class="title">Administrator</div>
-              <div class="co">Covenant Nation</div>
-              <div class="dates">May 2024 – Jan 2025</div>
-              <ul>
-                <li>Responded to client inquiries, addressing questions and needs via phone and email.</li>
-                <li>Planned and coordinated travel arrangements and administrative tasks.</li>
-                <li>Collaborated across teams to improve operational efficiency.</li>
-              </ul>
-            </div>
-            <div class="exp-item">
-              <div class="title">Technical Support Representative</div>
-              <div class="co">Digital Bananas Technology, Lagos</div>
-              <div class="dates">Jan 2023 – Feb 2023</div>
-              <ul>
-                <li>Coordinated Ethernet infrastructure for multi-school cybersecurity competition.</li>
-                <li>Maintained network reliability under tight deadlines with technical teams.</li>
-              </ul>
-            </div>
-            <div class="exp-item">
-              <div class="title">Customer Specialist</div>
-              <div class="co">Digital Bananas Technology, Lagos</div>
-              <div class="dates">Mar 2018 – Jan 2022</div>
-              <ul>
-                <li>Oversaw $5M+ ARR portfolio, coordinating upselling campaigns and technical resolutions.</li>
-                <li>Managed concurrent tasks and stakeholder escalations with full solution follow-through.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+        ))}
+      </Wrap>
     </div>
-  </div>
-</div>
-
-<!-- ===== CONTACT PAGE ===== -->
-<div id="contact-page" class="page">
-  <div class="inner-hero">
-    <h1>Get In Touch</h1>
-    <p>Let's work together</p>
-  </div>
-  <div class="contact-box">
-    <p>Interested in working together or have a compliance or project management question? Feel free to reach out — I'd love to connect.</p>
-    <div class="contact-cards">
-      <a href="mailto:estheroluwaabeni@gmail.com" class="contact-card">
-        <div class="icon">✉️</div>
-        <div class="label">Email</div>
-        <div class="val">estheroluwaabeni@gmail.com</div>
-      </a>
-      <a href="tel:4165395696" class="contact-card">
-        <div class="icon">📞</div>
-        <div class="label">Phone</div>
-        <div class="val">416-539-5696</div>
-      </a>
-      <a href="https://www.linkedin.com/in/estheroluakinyemi" target="_blank" class="contact-card">
-        <div class="icon">💼</div>
-        <div class="label">LinkedIn</div>
-        <div class="val">estheroluakinyemi</div>
-      </a>
-      <a href="https://github.com/tosin-akinyemi" target="_blank" class="contact-card">
-        <div class="icon">🐙</div>
-        <div class="label">GitHub</div>
-        <div class="val">tosin-akinyemi</div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<footer>© 2026 Esther Akinyemi · Project Coordinator & Compliance Specialist</footer>
-
-<script>
-function show(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+  );
 }
-</script>
-</body>
-</html>
+
+// ── PROJECTS ──
+function Projects() {
+  const list = [
+    {icon:"☁️",title:"Hinsight GCP Compliance",desc:"Led GCP compliance for Hinsight's healthcare dashboards, implementing BAA agreements, IAM role separation, and audit logging for full HIPAA and PIPEDA adherence. Delivered real-time compliant data visualizations for hospital executives.",tags:["HIPAA","PIPEDA","GCP","IAM"]},
+    {icon:"🔗",title:"CRM Workflow Optimization",desc:"Optimized CRM workflows at a digital agency integrating HubSpot and Salesforce with Asana and Trello, boosting pipeline efficiency by 30%. Conducted cloud security audits across wellness platforms.",tags:["HubSpot","Salesforce","Cloud Security"]},
+    {icon:"📋",title:"Capstone Compliance Audit",desc:"End-to-end compliance gap audit across multiple wellness platforms achieving 100% gap closure. Developed detailed remediation roadmaps and governance frameworks.",tags:["Audit","Gap Analysis","Governance"]},
+    {icon:"🌐",title:"Website Redevelopment – Shaw Direct",desc:"Coordinated API and AI model integrations as part of the website team, managing testing and debugging phases to deliver enhanced functionality on schedule.",tags:["API Integration","AI","Project Management"]},
+  ];
+  return (
+    <div>
+      <InnerHero title="Projects" sub="Key work I've delivered"/>
+      <Wrap>
+        <SectionHeader tag="Portfolio" title="Key" accent="Projects"/>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",gap:"1.5rem"}}>
+          {list.map((p,i)=>(
+            <div key={i} style={{background:GP,borderRadius:12,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+              <div style={{height:110,background:`linear-gradient(135deg,${GD},${G})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"2.5rem"}}>{p.icon}</div>
+              <div style={{padding:"1.25rem"}}>
+                <div style={{fontWeight:700,color:NAVY,marginBottom:".4rem"}}>{p.title}</div>
+                <p style={{color:GRAY,fontSize:".87rem",lineHeight:1.6,marginBottom:".5rem"}}>{p.desc}</p>
+                <div>{p.tags.map(t=><Tag key={t} c={t}/>)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Wrap>
+    </div>
+  );
+}
+
+// ── SKILLS ──
+function Skills() {
+  const groups = [
+    {title:"Regulatory Compliance",items:["GDPR","AML/KYC","ISO 27001","SOX","HIPAA / PIPEDA","FCA Regulations"]},
+    {title:"Risk Management",items:["Risk Assessment","Gap Analysis","Internal Audits","Controls Testing"]},
+    {title:"Policy & Governance",items:["Policy Writing","Procedure Development","Compliance Reporting","Training Delivery"]},
+    {title:"Tools & Platforms",items:["Microsoft Office","GRC Software","SharePoint","GCP BAA/DLP","Looker Studio","HubSpot / Salesforce","AWS IAM","GitHub"]},
+  ];
+  return (
+    <div>
+      <InnerHero title="Skills" sub="My areas of expertise"/>
+      <Wrap>
+        <SectionHeader tag="Expertise" title="My" accent="Skills"/>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:"1.25rem"}}>
+          {groups.map((g,i)=>(
+            <div key={i} style={{background:"#fff",borderRadius:12,padding:"1.25rem",boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+              <div style={{fontWeight:700,color:NAVY,fontSize:".95rem",marginBottom:".75rem",paddingBottom:".4rem",borderBottom:`2px solid ${G}`}}>{g.title}</div>
+              <ul style={{listStyle:"none",padding:0}}>
+                {g.items.map(it=>(
+                  <li key={it} style={{color:GRAY,fontSize:".87rem",padding:".25rem 0",display:"flex",alignItems:"center",gap:".4rem"}}>
+                    <span style={{color:G}}>▸</span>{it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Wrap>
+    </div>
+  );
+}
+
+// ── EVENTS ──
+function Events() {
+  return (
+    <div>
+      <InnerHero title="Events" sub="Communities & conferences I'm part of"/>
+      <Wrap>
+        <SectionHeader tag="Community & Learning" title="Events I've" accent="Attended"/>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:"1.5rem"}}>
+          {/* Big Data */}
+          <div style={{borderRadius:12,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+            <div style={{height:220,background:`linear-gradient(135deg,#0a1628,#166534)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"4rem"}}>📊</div>
+            <div style={{padding:"1.25rem",background:GP}}>
+              <span style={{display:"inline-block",background:GM,color:GD,fontSize:".72rem",padding:".2rem .6rem",borderRadius:20,marginBottom:".5rem"}}>Attendee</span>
+              <div style={{fontWeight:700,color:NAVY,marginBottom:".3rem"}}>11th Annual Big Data & Analytics Summit Canada</div>
+              <div style={{color:G,fontSize:".82rem",fontWeight:600,marginBottom:".5rem"}}>Big Data & Analytics Summit · Canada</div>
+              <p style={{color:GRAY,fontSize:".87rem",lineHeight:1.6}}>A two-day summit exploring how AI, LLMs, and NLP are transforming data-driven decision-making across industries. Key themes included data governance, automated compliance tools, and the role of data quality in AI adoption.</p>
+            </div>
+          </div>
+          {/* Obsidian */}
+          <div style={{borderRadius:12,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+            <div style={{height:220,background:`linear-gradient(135deg,#1e1b4b,#6d28d9)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"4rem"}}>🔮</div>
+            <div style={{padding:"1.25rem",background:GP}}>
+              <span style={{display:"inline-block",background:GM,color:GD,fontSize:".72rem",padding:".2rem .6rem",borderRadius:20,marginBottom:".5rem"}}>Community Member</span>
+              <div style={{fontWeight:700,color:NAVY,marginBottom:".3rem"}}>Obsidian Community Event</div>
+              <div style={{color:G,fontSize:".82rem",fontWeight:600,marginBottom:".5rem"}}>Obsidian Community · Toronto</div>
+              <p style={{color:GRAY,fontSize:".87rem",lineHeight:1.6}}>An active member of the Obsidian community, attending local events focused on knowledge management, personal productivity, and professional development. A space for collaboration and networking with like-minded professionals.</p>
+            </div>
+          </div>
+        </div>
+      </Wrap>
+    </div>
+  );
+}
+
+// ── BLOG ──
+function Blog() {
+  return (
+    <div>
+      <InnerHero title="Blog" sub="Thoughts & insights I've shared"/>
+      <Wrap>
+        <SectionHeader tag="Thought Leadership" title="Latest" accent="Posts"/>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:"1.5rem",marginBottom:"3rem"}}>
+          <div style={{background:"#fff",borderRadius:12,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+            <div style={{height:120,background:`linear-gradient(135deg,${GD},${GL})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"2.5rem"}}>✍️</div>
+            <div style={{padding:"1.25rem"}}>
+              <div style={{fontWeight:700,color:NAVY,marginBottom:".4rem",lineHeight:1.4}}>Insights from the 11th Annual Big Data & Analytics Summit</div>
+              <p style={{color:GRAY,fontSize:".87rem",lineHeight:1.6,marginBottom:".75rem"}}>A reflection on how AI, LLMs, and NLP are reshaping data governance and decision-making. Effective data governance is the foundation for successful AI adoption and meaningful business outcomes.</p>
+              <a href="https://www.linkedin.com/in/estheroluakinyemi" target="_blank" style={{color:G,fontSize:".87rem",fontWeight:600,textDecoration:"none"}}>Read on LinkedIn →</a>
+            </div>
+          </div>
+        </div>
+        <SectionHeader tag="What People Say" title="" accent="Testimonials"/>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(270px,1fr))",gap:"1.5rem"}}>
+          {[
+            {q:"I worked with Esther for over 2 years. I can easily describe her as prompt, responsive, thorough, organised, visionary, passionate, efficient, and perspective-taking. She adds a lot of value to any organisation she believes in.",a:"Stephen Olateju"},
+            {q:"Esther is an exceptional addition to any team — she goes all out. She is motivated, and once she commits, she makes sure she delivers. She has a positive competitive drive. I will gladly recommend her for any role.",a:"Moyosore Majekobaje"},
+          ].map((t,i)=>(
+            <div key={i} style={{background:GP,borderRadius:12,padding:"1.5rem",borderTop:`4px solid ${G}`}}>
+              <div style={{fontSize:"2rem",color:G,lineHeight:1,marginBottom:".5rem"}}>"</div>
+              <p style={{color:GRAY,fontSize:".9rem",lineHeight:1.75,fontStyle:"italic",marginBottom:"1rem"}}>{t.q}</p>
+              <div style={{fontWeight:700,color:NAVY,fontSize:".9rem"}}>{t.a}</div>
+            </div>
+          ))}
+        </div>
+      </Wrap>
+    </div>
+  );
+}
+
+// ── RESUME ──
+function Resume() {
+  const jobs = [
+    {title:"Website Team Member",co:"Shaw Direct",dates:"Jul 2025 – Aug 2025",bullets:["Coordinated with designers/developers to integrate APIs/AI models, delivering enhanced website functionality on schedule.","Managed testing/debugging phases ensuring project milestones and performance targets were met."]},
+    {title:"Customer Success Manager",co:"Shaw Direct",dates:"Mar 2023 – Apr 2024",bullets:["Coordinated customer lifecycle projects achieving 50% CSAT increase, 30% retention boost, and 20% account growth.","Led cross-functional teams to resolve issues first-contact, managing stakeholder expectations and timelines.","Directed proactive communication strategies to maintain project deliverables."]},
+    {title:"Administrator",co:"Covenant Nation",dates:"May 2024 – Jan 2025",bullets:["Responded to client inquiries via phone and email, addressing questions and needs.","Planned and coordinated travel arrangements and administrative tasks.","Collaborated across teams to improve operational efficiency."]},
+    {title:"Technical Support Representative",co:"Digital Bananas Technology, Lagos",dates:"Jan 2023 – Feb 2023",bullets:["Coordinated Ethernet infrastructure for multi-school cybersecurity competition.","Maintained network reliability under tight deadlines with technical teams."]},
+    {title:"Customer Specialist",co:"Digital Bananas Technology, Lagos",dates:"Mar 2018 – Jan 2022",bullets:["Oversaw $5M+ ARR portfolio, coordinating upselling campaigns and technical resolutions.","Managed concurrent tasks and stakeholder escalations with full solution follow-through."]},
+  ];
+  const skills = ["Project Coordination","Agile Methodologies","CRM Software","Microsoft Office Suite","Cybersecurity","AWS IAM","Cloud Networking","Web Development","GitHub","HTML","Stakeholder Management","HIPAA/PIPEDA","GCP BAA/DLP","Looker Studio"];
+  const ResH = ({t}) => <div style={{fontSize:".72rem",fontWeight:800,letterSpacing:2,textTransform:"uppercase",color:G,borderBottom:`2px solid ${GM}`,paddingBottom:".4rem",marginBottom:"1rem"}}>{t}</div>;
+  return (
+    <div>
+      <InnerHero title="Resume" sub="My full professional profile"/>
+      <div style={{maxWidth:900,margin:"2rem auto",padding:"0 5%"}}>
+        <div style={{textAlign:"center",marginBottom:"1.5rem"}}>
+          <a href="https://tosin-akinyemi.github.io/" target="_blank" style={{padding:".75rem 1.75rem",borderRadius:8,fontWeight:700,fontSize:".95rem",background:G,color:"#fff",textDecoration:"none",display:"inline-block"}}>⬇ Download Resume (PDF)</a>
+        </div>
+        <div style={{background:"#fff",borderRadius:16,boxShadow:"0 4px 30px rgba(0,0,0,.1)",overflow:"hidden"}}>
+          <div style={{background:`linear-gradient(135deg,${GD},${G})`,padding:"2.5rem 3rem",color:"#fff"}}>
+            <h2 style={{fontSize:"2rem",fontWeight:900,letterSpacing:1}}>ESTHER AKINYEMI</h2>
+            <div style={{color:"#bbf7d0",fontSize:"1rem",margin:".3rem 0 1rem"}}>Project Coordinator | Compliance Specialist</div>
+            <div style={{display:"flex",gap:"1.5rem",flexWrap:"wrap",fontSize:".85rem",color:"#dcfce7"}}>
+              <span>📞 416-539-5696</span><span>✉️ estheroluwaabeni@gmail.com</span><span>📍 Toronto, Ontario</span>
+            </div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1.6fr"}}>
+            <div style={{background:GP,padding:"2rem"}}>
+              <div style={{marginBottom:"2rem"}}>
+                <ResH t="Summary"/>
+                <p style={{color:GRAY,fontSize:".85rem",lineHeight:1.7}}>Project Coordinator with 5+ years driving customer success across telecom, hospitality, and technology sectors, managing $5M+ ARR. Expert in team leadership, stakeholder coordination, risk mitigation, and on-budget delivery.</p>
+              </div>
+              <div style={{marginBottom:"2rem"}}>
+                <ResH t="Education"/>
+                {[{d:"Master's in Informatics, Security Analytics & AI",s:"Northeastern University",y:"Mar 2026"},{d:"Diploma in Digital Business Management",s:"Toronto School of Management",y:""},{d:"Bachelor's Degree in Sociology & Anthropology",s:"",y:""}].map((e,i)=>(
+                  <div key={i} style={{marginBottom:"1.1rem"}}>
+                    <div style={{fontWeight:700,color:NAVY,fontSize:".87rem",lineHeight:1.4}}>{e.d}</div>
+                    {e.s&&<div style={{color:G,fontSize:".8rem",margin:".15rem 0"}}>{e.s}</div>}
+                    {e.y&&<div style={{color:GRAY,fontSize:".76rem"}}>{e.y}</div>}
+                  </div>
+                ))}
+              </div>
+              <div style={{marginBottom:"2rem"}}>
+                <ResH t="Skills"/>
+                {skills.map(s=><span key={s} style={{display:"inline-block",background:GM,color:GD,fontSize:".75rem",padding:".22rem .6rem",borderRadius:20,margin:".2rem .15rem"}}>{s}</span>)}
+              </div>
+              <div>
+                <ResH t="Profiles"/>
+                <a href="https://www.linkedin.com/in/estheroluakinyemi" target="_blank" style={{display:"block",color:G,fontSize:".82rem",marginBottom:".3rem",textDecoration:"none"}}>🔗 LinkedIn</a>
+                <a href="https://github.com/tosin-akinyemi" target="_blank" style={{display:"block",color:G,fontSize:".82rem",textDecoration:"none"}}>🐙 GitHub</a>
+              </div>
+            </div>
+            <div style={{background:"#fff",padding:"2rem"}}>
+              <ResH t="Experience"/>
+              {jobs.map((e,i)=>(
+                <div key={i} style={{marginBottom:"1.4rem",paddingBottom:"1.4rem",borderBottom:i<jobs.length-1?"1px solid #e2e8f0":"none"}}>
+                  <div style={{fontWeight:700,color:NAVY,fontSize:".9rem"}}>{e.title}</div>
+                  <div style={{color:G,fontSize:".82rem",margin:".15rem 0 .1rem"}}>{e.co}</div>
+                  <div style={{color:GRAY,fontSize:".76rem",marginBottom:".5rem"}}>{e.dates}</div>
+                  <ul style={{paddingLeft:"1rem",color:GRAY,fontSize:".82rem",lineHeight:1.7}}>{e.bullets.map((b,j)=><li key={j}>{b}</li>)}</ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── CONTACT ──
+function Contact() {
+  const links = [
+    {icon:"✉️",label:"Email",val:"estheroluwaabeni@gmail.com",href:"mailto:estheroluwaabeni@gmail.com"},
+    {icon:"📞",label:"Phone",val:"416-539-5696",href:"tel:4165395696"},
+    {icon:"💼",label:"LinkedIn",val:"estheroluakinyemi",href:"https://www.linkedin.com/in/estheroluakinyemi"},
+    {icon:"🐙",label:"GitHub",val:"tosin-akinyemi",href:"https://github.com/tosin-akinyemi"},
+  ];
+  return (
+    <div>
+      <InnerHero title="Get In Touch" sub="Let's work together"/>
+      <div style={{maxWidth:700,margin:"4rem auto",padding:"0 5%",textAlign:"center"}}>
+        <p style={{color:GRAY,lineHeight:1.7,marginBottom:"2rem"}}>Interested in working together or have a compliance or project management question? Feel free to reach out — I'd love to connect.</p>
+        <div style={{display:"flex",gap:"1.25rem",flexWrap:"wrap",justifyContent:"center"}}>
+          {links.map((c,i)=>(
+            <a key={i} href={c.href} target="_blank" style={{background:GP,borderRadius:12,padding:"1.5rem 1.75rem",textAlign:"center",textDecoration:"none",color:NAVY,flex:1,minWidth:140,border:`2px solid ${GM}`,display:"block"}}>
+              <div style={{fontSize:"1.75rem",marginBottom:".5rem"}}>{c.icon}</div>
+              <div style={{fontSize:".76rem",color:GRAY,marginBottom:".2rem"}}>{c.label}</div>
+              <div style={{fontWeight:700,fontSize:".85rem"}}>{c.val}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── APP ──
+export default function App() {
+  const [page, setPage] = useState("home");
+  const go = p => { setPage(p); setTimeout(()=>window.scrollTo(0,0),0); };
+
+  const NAV = [["home","Home"],["about","About"],["experience","Experience"],["projects","Projects"],["skills","Skills"],["events","Events"],["blog","Blog"],["resume","Resume"],["contact","Contact"]];
+  const PAGES = {home:<Home go={go}/>,about:<About/>,experience:<Experience/>,projects:<Projects/>,skills:<Skills/>,events:<Events/>,blog:<Blog/>,resume:<Resume/>,contact:<Contact/>};
+
+  return (
+    <div style={{fontFamily:"'Segoe UI',sans-serif"}}>
+      {/* NAV */}
+      <div style={{position:"fixed",top:0,width:"100%",background:"rgba(10,22,40,0.97)",zIndex:1000,padding:"0 3%"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",height:64}}>
+          <button onClick={()=>go("home")} style={{color:"#fff",fontWeight:800,fontSize:"1rem",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit"}}>Esther Akinyemi</button>
+          <div style={{display:"flex",gap:"1rem",flexWrap:"wrap"}}>
+            {NAV.map(([p,l])=>(
+              <button key={p} onClick={()=>go(p)} style={{color:page===p?GL:"#cbd5e1",background:"none",border:"none",cursor:"pointer",fontSize:".83rem",fontWeight:page===p?700:400,fontFamily:"inherit",padding:".25rem .1rem"}}>
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* PAGE CONTENT */}
+      <div style={{paddingTop:64}}>
+        {PAGES[page]}
+      </div>
+      {/* FOOTER */}
+      <div style={{background:GD,color:"#bbf7d0",textAlign:"center",padding:"1.25rem",fontSize:".82rem"}}>
+        © 2026 Esther Akinyemi · Project Coordinator & Compliance Specialist
+      </div>
+    </div>
+  );
+}
