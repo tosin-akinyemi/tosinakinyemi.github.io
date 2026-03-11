@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Esther Akinyemi | Compliance Specialist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1a2e4a;
+    --gold: #c9a84c;
+    --light: #f5f5f0;
+    --mid: #e8e6e0;
+    --text: #2d2d2d;
+    --muted: #6b7280;
+    --white: #ffffff;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Georgia', serif; color: var(--text); background: var(--white); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; background: var(--navy);
+    z-index: 100; padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 60px;
+  }
+  nav .logo { color: var(--white); font-size: 1.1rem; letter-spacing: 1px; }
+  nav .logo span { color: var(--gold); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: #ccc; text-decoration: none; font-family: 'Arial', sans-serif; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  nav ul a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 2rem 4rem;
+  }
+  .hero-inner { max-width: 700px; }
+  .hero-badge {
+    display: inline-block; border: 1px solid var(--gold); color: var(--gold);
+    font-family: Arial, sans-serif; font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; padding: 0.4rem 1.2rem; border-radius: 2px; margin-bottom: 1.5rem;
+  }
+  #hero h1 { color: var(--white); font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 1rem; }
+  #hero h1 span { color: var(--gold); }
+  #hero p { color: #a0aec0; font-size: 1.1rem; line-height: 1.8; margin-bottom: 2.5rem; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy); padding: 0.8rem 2rem;
+    font-family: Arial, sans-serif; font-size: 0.85rem; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none; border-radius: 2px;
+    font-weight: bold; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline {
+    border: 1px solid #fff; color: #fff; padding: 0.8rem 2rem;
+    font-family: Arial, sans-serif; font-size: 0.85rem; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: #fff; color: var(--navy); }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-family: Arial, sans-serif; font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+  }
+  h2 { font-size: 2rem; color: var(--navy); margin-bottom: 2.5rem; }
+  h2 .line { display: block; width: 40px; height: 3px; background: var(--gold); margin-top: 0.5rem; }
+
+  /* ABOUT */
+  #about { background: var(--light); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text p { color: var(--text); line-height: 1.9; font-size: 1.05rem; margin-bottom: 1rem; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .stat-card { background: var(--white); border-left: 3px solid var(--gold); padding: 1.2rem 1.5rem; }
+  .stat-card .num { font-size: 2rem; font-weight: bold; color: var(--navy); }
+  .stat-card .label { font-family: Arial, sans-serif; font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* EXPERIENCE */
+  #experience { background: var(--white); }
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--mid); }
+  .tl-item { position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -2.35rem; top: 0.4rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--white); box-shadow: 0 0 0 2px var(--gold);
+  }
+  .tl-item .role { font-size: 1.1rem; font-weight: bold; color: var(--navy); }
+  .tl-item .company { font-family: Arial, sans-serif; font-size: 0.9rem; color: var(--gold); margin: 0.2rem 0; }
+  .tl-item .period { font-family: Arial, sans-serif; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.7rem; }
+  .tl-item ul { padding-left: 1.2rem; }
+  .tl-item ul li { font-size: 0.95rem; line-height: 1.8; color: var(--text); margin-bottom: 0.3rem; }
+
+  /* SKILLS */
+  #skills { background: var(--light); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-card { background: var(--white); padding: 1.5rem; border-top: 3px solid var(--navy); }
+  .skill-card h3 { font-size: 0.95rem; color: var(--navy); margin-bottom: 1rem; font-family: Arial, sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+  .skill-tag {
+    display: inline-block; background: var(--mid); color: var(--text);
+    font-family: Arial, sans-serif; font-size: 0.78rem; padding: 0.3rem 0.8rem;
+    border-radius: 2px; margin: 0.25rem 0.25rem 0 0;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--navy); }
+  #contact h2 { color: var(--white); }
+  #contact p { color: #a0aec0; font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; max-width: 540px; }
+  .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white); text-decoration: none; padding: 0.8rem 1.4rem;
+    font-family: Arial, sans-serif; font-size: 0.85rem; border-radius: 2px; transition: all 0.2s;
+  }
+  .contact-link:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .contact-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* FOOTER */
+  footer { background: #111d2e; text-align: center; padding: 1.5rem; }
+  footer p { font-family: Arial, sans-serif; font-size: 0.8rem; color: #4a5568; }
+
+  @media (max-width: 640px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    nav ul { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Esther <span>Akinyemi</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Compliance Specialist</div>
+    <h1>Esther <span>Akinyemi</span></h1>
+    <p>Helping organizations navigate complex regulatory landscapes with precision, integrity, and strategic insight.</p>
+    <div class="hero-btns">
+      <a href="#experience" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label">About Me</p>
+    <h2>Who I Am <span class="line"></span></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I am a dedicated Compliance Specialist with a strong background in regulatory affairs, risk management, and policy development. I help organizations build and maintain robust compliance frameworks that align with industry standards and legal requirements.</p>
+        <p>My approach combines meticulous attention to detail with a practical, business-minded perspective — ensuring compliance programs are not just technically sound, but operationally effective.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="num">5+</div>
+          <div class="label">Years of Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">30+</div>
+          <div class="label">Audits Conducted</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">100%</div>
+          <div class="label">Audit Pass Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">3</div>
+          <div class="label">Certifications</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label">Career History</p>
+    <h2>Experience <span class="line"></span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="role">Senior Compliance Specialist</div>
+        <div class="company">Company Name · Full-time</div>
+        <div class="period">2022 – Present</div>
+        <ul>
+          <li>Led regulatory compliance reviews across multiple business units, ensuring adherence to applicable laws and standards.</li>
+          <li>Developed and maintained internal compliance policies and procedures.</li>
+          <li>Conducted training sessions for staff on compliance requirements and best practices.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="role">Compliance Analyst</div>
+        <div class="company">Company Name · Full-time</div>
+        <div class="period">2019 – 2022</div>
+        <ul>
+          <li>Monitored regulatory changes and assessed their impact on business operations.</li>
+          <li>Assisted in preparing compliance reports and documentation for regulatory bodies.</li>
+          <li>Coordinated internal audits and tracked remediation of identified gaps.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="role">Compliance Assistant</div>
+        <div class="company">Company Name · Full-time</div>
+        <div class="period">2017 – 2019</div>
+        <ul>
+          <li>Supported the compliance team in day-to-day regulatory monitoring and reporting activities.</li>
+          <li>Maintained compliance records and assisted with audit preparation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-label">Expertise</p>
+    <h2>Skills <span class="line"></span></h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Regulatory Compliance</h3>
+        <span class="skill-tag">GDPR</span>
+        <span class="skill-tag">AML/KYC</span>
+        <span class="skill-tag">ISO 27001</span>
+        <span class="skill-tag">SOX</span>
+        <span class="skill-tag">FCA Regulations</span>
+      </div>
+      <div class="skill-card">
+        <h3>Risk Management</h3>
+        <span class="skill-tag">Risk Assessment</span>
+        <span class="skill-tag">Gap Analysis</span>
+        <span class="skill-tag">Internal Audits</span>
+        <span class="skill-tag">Controls Testing</span>
+      </div>
+      <div class="skill-card">
+        <h3>Policy & Governance</h3>
+        <span class="skill-tag">Policy Writing</span>
+        <span class="skill-tag">Procedure Development</span>
+        <span class="skill-tag">Compliance Reporting</span>
+        <span class="skill-tag">Training Delivery</span>
+      </div>
+      <div class="skill-card">
+        <h3>Tools & Platforms</h3>
+        <span class="skill-tag">Microsoft Office</span>
+        <span class="skill-tag">GRC Software</span>
+        <span class="skill-tag">SharePoint</span>
+        <span class="skill-tag">Excel</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">Get In Touch</p>
+    <h2>Contact <span class="line"></span></h2>
+    <p>Interested in working together or have a compliance question? Feel free to reach out — I'd love to connect.</p>
+    <div class="contact-links">
+      <a href="mailto:esther@email.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        esther@email.com
+      </a>
+      <a href="https://linkedin.com/in/estherakinyemi" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M19 0h-14C2.239 0 0 2.239 0 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5V5c0-2.761-2.238-5-5-5zm-11 19H5v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Esther Akinyemi · Compliance Specialist</p>
+</footer>
+
+</body>
+</html>
