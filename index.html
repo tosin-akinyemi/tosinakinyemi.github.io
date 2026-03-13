@@ -83,13 +83,21 @@ h1.hero-name em{font-style:italic;color:var(--gold2)}
 .portrait-fallback{position:absolute;inset:0;background:linear-gradient(160deg,var(--navy2) 0%,var(--blue) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:1}
 .portrait-initials{font-family:'Playfair Display',serif;font-size:4rem;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.1em}
 .portrait-fallback p{font-size:.78rem;color:rgba(255,255,255,.4);text-align:center;padding:0 1rem}
-.avail-badge{position:absolute;bottom:-14px;left:-12px;background:var(--forest);border:1px solid rgba(201,151,58,.3);border-radius:8px;padding:.6rem 1rem;font-size:.72rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(0,0,0,.3);white-space:nowrap}
+.avail-badge{position:absolute;bottom:-14px;left:-12px;background:var(--navy);border:1px solid rgba(184,137,42,.3);border-radius:8px;padding:.6rem 1rem;font-size:.72rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(0,0,0,.3);white-space:nowrap;z-index:10}
 .dot-pulse{width:8px;height:8px;background:#4ade80;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 .scroll-hint{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.3rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);animation:bob 2.5s ease-in-out infinite;text-decoration:none}
-.scroll-hint::after{content:'';width:1px;height:28px;background:rgba(201,151,58,.4)}
+.scroll-hint::after{content:'';width:1px;height:28px;background:rgba(184,137,42,.4)}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
-@media(max-width:700px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero-stats{justify-content:center}.hero-btns{justify-content:center}.hero-sub{margin:0 auto 2rem}.portrait-wrap{order:-1;display:flex;justify-content:center}.portrait-box{width:min(200px,55vw)}.avail-badge{left:-4px}}
+@media(max-width:700px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-stats{justify-content:center}
+  .hero-btns{justify-content:center}
+  .hero-sub{margin:0 auto 2rem}
+  .portrait-wrap{order:-1;display:flex;flex-direction:column;align-items:center;gap:1rem;margin-bottom:.5rem}
+  .portrait-box{width:min(200px,55vw)}
+  .avail-badge{position:static;transform:none;left:auto;bottom:auto;justify-content:center;font-size:.7rem;padding:.5rem .85rem}
+}
 /* ABOUT */
 #about{background:var(--white)}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start}
@@ -392,12 +400,130 @@ footer{background:var(--dark);text-align:center;padding:1.1rem clamp(1rem,4vw,3r
       </article>
       <article class="pcard">
         <div class="phdr"><span class="pnum">04</span><span class="prole">Website Team Member</span></div>
-        <h3 class="ptitle">Website Redevelopment — Research Impact</h3>
-        <p class="pdesc">Coordinated API and AI model integrations at Research Impact, managing testing and debugging phases to deliver enhanced functionality on schedule and within all performance targets.</p>
-        <div class="ptags"><span class="ptag">API Integration</span><span class="ptag">AI Models</span><span class="ptag">QA Testing</span></div>
+        <h3 class="ptitle">Website Redevelopment — Research Impact Canada</h3>
+        <p class="pdesc">Collaborated with designers and developers to integrate third-party APIs and AI models, delivering enhanced website functionality on schedule. Managed testing and debugging phases and contributed to Agile sprint planning and peer code reviews.</p>
+        <div class="ptags"><span class="ptag">API Integration</span><span class="ptag">AI Models</span><span class="ptag">QA Testing</span><span class="ptag">Agile</span></div>
         <div class="poutcome">✓ Delivered on schedule with all performance targets met</div>
         <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
-        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>API coordination, AI oversight, QA testing, project timeline management, stakeholder communication.</p></div><div class="dblock"><h5>Reflection</h5><p>Strengthened my ability to bridge technical and business stakeholder communication.</p></div></div></div>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>API coordination, AI model integration, QA testing, Agile methodology, stakeholder communication.</p></div><div class="dblock"><h5>Reflection</h5><p>Strengthened my ability to bridge technical and business stakeholder communication in a fast-paced environment.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">05</span><span class="prole">Project Manager &amp; Developer</span></div>
+        <h3 class="ptitle">AI Identity Model — LLM Origin Classifier</h3>
+        <p class="pdesc">Led a 6-person team to design and deliver an ML-powered system that classifies text by its originating large language model (OpenAI, Gemini, Mistral, Claude). Built with a React frontend, FastAPI backend, and SQLite database, deployed on GoDaddy via Google Cloud.</p>
+        <div class="ptags"><span class="ptag">React</span><span class="ptag">FastAPI</span><span class="ptag">Python</span><span class="ptag">Machine Learning</span><span class="ptag">GCP</span><span class="ptag">GitHub</span></div>
+        <div class="poutcome">✓ Delivered on time with live deployment at ai-model-identity.space</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>Team leadership, ML classification, React/FastAPI full-stack development, GitHub collaboration, GCP deployment.</p></div><div class="dblock"><h5>Reflection</h5><p>Managing a multidisciplinary team deepened my appreciation for clear communication and structured project workflows.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">06</span><span class="prole">Cloud Security Analyst</span></div>
+        <h3 class="ptitle">AWS IAM Lab — Cloud Security</h3>
+        <p class="pdesc">Configured AWS Identity and Access Management (IAM) users, roles, and groups to secure EC2 instances and S3 buckets. Tested authentication flows and demonstrated the principle of least privilege for compliance-ready cloud environments.</p>
+        <div class="ptags"><span class="ptag">AWS IAM</span><span class="ptag">EC2</span><span class="ptag">S3</span><span class="ptag">Cloud Security</span><span class="ptag">Least Privilege</span></div>
+        <div class="poutcome">✓ Fully secured environment demonstrating compliance-ready IAM architecture</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>AWS IAM, role-based access control, cloud security, authentication testing, compliance architecture.</p></div><div class="dblock"><h5>Reflection</h5><p>In this lab I managed user access by assigning user-1 to S3-Support, user-2 to EC2-Support, and user-3 to EC2-Admin, then verified each login and confirmed that group permissions correctly controlled what actions each user could take — including the ability to stop EC2 instances. It reinforced how IAM groups make access management more secure and scalable by assigning permissions based on roles rather than managing each user individually.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">07</span><span class="prole">Data Analyst</span></div>
+        <h3 class="ptitle">Cloud Data Analysis — Google BigQuery &amp; Cloud SQL</h3>
+        <p class="pdesc">Executed complex SQL queries across GCP datasets using SELECT, GROUP BY, UNION, and INSERT/DELETE operations. Managed complete data pipelines from CSV export through Cloud Storage to Cloud SQL table imports, supporting compliance reporting and analytics workflows.</p>
+        <div class="ptags"><span class="ptag">BigQuery</span><span class="ptag">Cloud SQL</span><span class="ptag">SQL</span><span class="ptag">GCP</span><span class="ptag">Data Pipelines</span></div>
+        <div class="poutcome">✓ End-to-end data pipelines built supporting compliance reporting workflows</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>SQL querying, GCP data pipeline management, Cloud Storage, BigQuery, compliance analytics.</p></div><div class="dblock"><h5>Reflection</h5><p>Working with cloud-native data tools reinforced how data governance and compliance reporting are deeply interconnected.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">08</span><span class="prole">WordPress Designer</span></div>
+        <h3 class="ptitle">Happy Nutrition Canada — Website Redesign</h3>
+        <p class="pdesc">Designed and maintained the company website using WordPress and Elementor, creating responsive layouts aligned with brand guidelines. Optimised pages for usability, accessibility, and performance, improving the overall mobile user experience.</p>
+        <div class="ptags"><span class="ptag">WordPress</span><span class="ptag">Elementor</span><span class="ptag">Responsive Design</span><span class="ptag">UX</span><span class="ptag">Performance</span></div>
+        <div class="poutcome">✓ Improved mobile UX and page load performance across all key pages</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>WordPress, Elementor, responsive web design, UX optimisation, brand alignment.</p></div><div class="dblock"><h5>Reflection</h5><p>Designing for a wellness brand highlighted how visual clarity and accessibility directly impact user trust.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">09</span><span class="prole">Technical Support</span></div>
+        <h3 class="ptitle">Cybersecurity Competition — Network Infrastructure</h3>
+        <p class="pdesc">Coordinated Ethernet network infrastructure for a multi-school cybersecurity competition hosted through Toronto School of Management. Collaborated with technical teams to ensure full event readiness and network reliability under tight deadlines.</p>
+        <div class="ptags"><span class="ptag">Networking</span><span class="ptag">Cybersecurity</span><span class="ptag">Ethernet</span><span class="ptag">Event Coordination</span></div>
+        <div class="poutcome">✓ Competition ran without network issues — full event readiness achieved</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail"><div class="dgrid"><div class="dblock"><h5>Key Skills</h5><p>Network infrastructure setup, cybersecurity event support, team coordination, deadline management.</p></div><div class="dblock"><h5>Reflection</h5><p>Supporting a live competition under pressure reinforced the importance of preparation and real-time problem solving.</p></div></div></div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">10</span><span class="prole">Full-Stack Developer</span></div>
+        <h3 class="ptitle">Web Development Using MVC Architecture</h3>
+        <p class="pdesc">Two interconnected projects demonstrating full-stack web development using MVC principles: an ASP.NET Core Event Management app with a complete Controller/Model/View/Service architecture, and a fully responsive 4-page TechFuture 2025 Conference Website built in pure HTML5 &amp; CSS3 — no frameworks, no JavaScript dependencies.</p>
+        <div class="ptags"><span class="ptag">ASP.NET Core</span><span class="ptag">MVC Architecture</span><span class="ptag">C#</span><span class="ptag">HTML5</span><span class="ptag">CSS3</span><span class="ptag">Responsive Design</span><span class="ptag">Accessibility</span><span class="ptag">Entity Framework</span></div>
+        <div class="poutcome">✓ Clean MVC app with no build errors + fully responsive 4-page conference site with print stylesheet and WCAG accessibility</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail">
+          <div class="pimg-wrap" style="margin-bottom:1.25rem;border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+            <img src="https://tosin-akinyemi.github.io/mvc-screenshot.png" alt="ASP.NET MVC Event Management App in Visual Studio" style="width:100%;display:block" onerror="this.parentElement.style.display='none'">
+          </div>
+          <div class="dgrid">
+            <div class="dblock">
+              <h5>Event Management App (ASP.NET MVC)</h5>
+              <p>Built with ASP.NET Core using the full MVC pattern — Controllers, Models, Views, and a dedicated Service layer. Used Entity Framework with ApplicationDbContext for data management and Visual Studio for development.</p>
+            </div>
+            <div class="dblock">
+              <h5>TechFuture 2025 Conference Website</h5>
+              <p>4-page responsive site (Home, Schedule, Registration, Contact) built in pure HTML5 &amp; CSS3. Features a 3-day conference schedule with rowspan/colspan tables, multi-track sessions, registration form with HTML5 validation, and a print stylesheet for clean monochrome output.</p>
+            </div>
+            <div class="dblock">
+              <h5>Design &amp; Accessibility Decisions</h5>
+              <p>Used CSS Grid and Flexbox for all layouts with deliberate breakpoints at 768px and 480px. Colour scheme uses purple/pink gradients with sufficient contrast ratios. All form inputs have associated labels, all interactive elements are keyboard accessible, and tab order follows a logical natural flow.</p>
+            </div>
+            <div class="dblock">
+              <h5>Reflection</h5>
+              <p>These projects reinforced that clean separation of concerns — whether in MVC architecture or HTML/CSS component design — is what makes code maintainable, accessible, and scalable. Building without frameworks sharpened my understanding of how the web actually works at its foundation.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="pcard">
+        <div class="phdr"><span class="pnum">11</span><span class="prole">Project Manager</span></div>
+        <h3 class="ptitle">Holiday Finder — AI-Powered Travel Web App</h3>
+        <p class="pdesc">Led a 4-person team to design and build a full-stack AI-powered holiday discovery web application. The app delivers personalized destination recommendations based on user preferences, integrating a recommendation engine, GDPR-compliant chat history, BCrypt password security, and CDN-linked profile image storage.</p>
+        <div class="ptags"><span class="ptag">Project Management</span><span class="ptag">AI Integration</span><span class="ptag">Full-Stack</span><span class="ptag">GDPR Compliance</span><span class="ptag">BCrypt</span><span class="ptag">Database Design</span></div>
+        <div class="poutcome">✓ Delivered a fully functional AI travel app with compliance-ready architecture and personalized user experience</div>
+        <button class="toggle" onclick="toggleCard(this)" aria-expanded="false">Details <span class="tog-ico">▾</span></button>
+        <div class="pdetail">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem">
+            <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+              <img src="https://tosin-akinyemi.github.io/holiday-features.jpg" alt="Holiday Finder Key Features" style="width:100%;display:block" onerror="this.parentElement.style.display='none'">
+            </div>
+            <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+              <img src="https://tosin-akinyemi.github.io/holiday-frontend.jpg" alt="Holiday Finder Frontend Structure" style="width:100%;display:block" onerror="this.parentElement.style.display='none'">
+            </div>
+            <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+              <img src="https://tosin-akinyemi.github.io/holiday-backend.jpg" alt="Holiday Finder Backend Structure" style="width:100%;display:block" onerror="this.parentElement.style.display='none'">
+            </div>
+            <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+              <img src="https://tosin-akinyemi.github.io/holiday-lessons.png" alt="Holiday Finder Lessons Learned" style="width:100%;display:block" onerror="this.parentElement.style.display='none'">
+            </div>
+          </div>
+          <div class="dgrid">
+            <div class="dblock">
+              <h5>My Role</h5>
+              <p>Project Manager — coordinated a cross-functional team of frontend developer, backend developer, and researcher. Oversaw timelines, integration points, and final delivery.</p>
+            </div>
+            <div class="dblock">
+              <h5>Key Features</h5>
+              <p>AI-powered destination recommendations, GDPR-compliant chat history (Save Chat flag), soft-delete user management, audit trail timestamps, BCrypt password hashing, and image optimization via ImageSharp.</p>
+            </div>
+            <div class="dblock">
+              <h5>Tech Stack</h5>
+              <p>Full-stack web application with frontend/backend separation, relational database with session management, CDN storage integration, and compliance-ready data architecture.</p>
+            </div>
+            <div class="dblock">
+              <h5>Reflection</h5>
+              <p>Managing a multidisciplinary team on a consumer-facing product deepened my understanding of how compliance (GDPR), security (BCrypt), and UX must be designed together from the ground up — not bolted on at the end.</p>
+            </div>
+          </div>
+        </div>
       </article>
     </div>
     <p class="coming">More projects coming soon — this portfolio is updated regularly.</p>
